@@ -1,0 +1,28 @@
+{
+  "name": "live055",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@types/aws-lambda": "^8.10.152",
+    "@types/node": "^24.5.2",
+    "eslint": "^8.57.1",
+    "globals": "^16.4.0",
+    "typescript": "^5.9.2",
+    "typescript-eslint": "^8.44.1"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.896.0",
+    "@middy/core": "^6.4.5",
+    "@middy/http-json-body-parser": "^6.4.5",
+    "@middy/http-multipart-body-parser": "^6.4.5",
+    "@middy/http-response-serializer": "^6.4.5"
+  }
+}
