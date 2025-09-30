@@ -1,13 +1,13 @@
 import { MiddlewareObj } from "@middy/core";
 import { APIGatewayProxyEventV2 } from "aws-lambda";
-import { HttpError } from "../../errors/HttpError";
+import { HttpError } from "../../../application/errors/HttpError";
 
 export function errorHandler(): MiddlewareObj<APIGatewayProxyEventV2> {
   return {
     onError: (request) => {
       const { error } = request;
 
-      if (error instanceof HttpError) {
+      if (error && (error instanceof HttpError || "statusCode" in error)) {
         request.response = {
           ...request.response,
           statusCode: error.statusCode,

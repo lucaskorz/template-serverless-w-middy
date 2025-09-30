@@ -2,17 +2,17 @@ import middy from "@middy/core";
 import httpJsonBodyParser from "@middy/http-json-body-parser";
 import httpMultipartBodyParser from "@middy/http-multipart-body-parser";
 import httpResponseSerializer from "@middy/http-response-serializer";
-import { IHttpRequest, IHttpResponse } from "../types/IHttp";
+import { IController } from "../../application/types/IController";
 import { errorHandler } from "./middlewares/errorHandler";
 
-type Handler<TBody extends Record<string, any> | undefined> = (
-  request: IHttpRequest<TBody>
-) => Promise<IHttpResponse>;
-
-export function makeHandler<
-  TBody extends Record<string, any> | undefined = undefined
->(handler: Handler<TBody>) {
-  return middy(handler)
+export function makeHandler(controller: IController<any>) {
+  return middy(async (event: any) => {
+    return controller.handler({
+      body: event.body,
+      headers: event.headers,
+      params: event.pathParameters,
+    });
+  })
     .use(httpJsonBodyParser({ disableContentTypeError: true }))
     .use(
       httpMultipartBodyParser({
