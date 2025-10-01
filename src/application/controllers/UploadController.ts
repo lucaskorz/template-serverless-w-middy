@@ -1,7 +1,5 @@
-import { PutObjectCommand } from "@aws-sdk/client-s3";
+import { PutObjectCommand, S3Client } from "@aws-sdk/client-s3";
 import { randomUUID } from "node:crypto";
-
-import { s3Client } from "../clients/s3Client";
 import { HttpError } from "../errors/HttpError";
 import { IController } from "../types/IController";
 import { IFile } from "../types/IFile";
@@ -12,6 +10,8 @@ interface IUploadBody {
 }
 
 export class UploadController implements IController<IUploadBody> {
+  constructor(private readonly s3Client: S3Client) {}
+
   async handler(request: IHttpRequest<IUploadBody>): Promise<IHttpResponse> {
     const { file } = request.body;
 
@@ -27,7 +27,7 @@ export class UploadController implements IController<IUploadBody> {
       Body: file.content,
     });
 
-    await s3Client.send(putObjectCommand);
+    await this.s3Client.send(putObjectCommand);
 
     return {
       statusCode: 200,
